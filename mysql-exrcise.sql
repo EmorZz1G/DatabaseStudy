@@ -2,7 +2,7 @@
 SQLyog Ultimate v12.08 (64 bit)
 MySQL - 8.0.0-dmr-log : Database - sc_db
 *********************************************************************
-*/
+*/
 
 /*!40101 SET NAMES utf8 */;
 
