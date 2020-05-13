@@ -213,18 +213,46 @@ GROUP BY sc.`cno`
 
 # 18. 查询平均分75以上，并且没有不及格成绩的学生信息。
 SELECT student.*
-FROM sc,student
-WHERE NOT EXISTS
+FROM student
+WHERE EXISTS
                 (
                   SELECT *
                   FROM sc sc2
-                  WHERE MIN(sc2.`grade`)>=60
-                        AND sc2.sno=sc.`sno`
+                  WHERE sc2.sno=student.`sno`
+                  GROUP BY sc2.`sno`
+                  HAVING MIN(sc2.`grade`)>=60
+                        AND AVG(sc2.`grade`)>75     
                 )
-GROUP BY sc.`sno`
-HAVING AVG(sc.`grade`)>75
-
+                
+# 19. 修改“CS”的学生成绩，不及格学生的成绩增加5分。
+UPDATE sc,student
+SET sc.`grade`=sc.`grade`+5
+WHERE student.`sdept`="CS"
+      AND sc.`grade`<60
+      AND sc.sno = student.`sno`
+      
+# 20. 删除“IS”系学生的成绩记录。
+DELETE 
+FROM sc
+WHERE sc.`sno` IN (
+                    SELECT student.`sno`
+                    FROM student
+                    WHERE student.`sdept`="IS"
+                  )
+                  
+# 21. 定义、查询、更新视图。
+# Definition
+CREATE VIEW cs_student AS
+SELECT student.*
+FROM student
+WHERE student.`sdept`="CS"
+WITH CHECK OPTION
+# Query
 SELECT *
-FROM sc sc2
-GROUP BY sc2.grade
-HAVING MIN(sc2.`grade`)>=60
+FROM cs_student
+# Update success
+INSERT INTO cs_student
+VALUES(201215131,'Emor2','男',20,'CS')
+# Update failure
+INSERT INTO cs_student
+VALUES(201215131,'Emor2','男',20,'IS')
