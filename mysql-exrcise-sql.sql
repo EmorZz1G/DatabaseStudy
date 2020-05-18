@@ -205,7 +205,18 @@ FROM (
         FROM sc
         GROUP BY sc.`sno`
       )p
-
+      
+# 15. 题意理解？"平均"是否包括"没有选课"的学生
+SELECT p1.cnt_course/p2.cnt_student AVG
+FROM (
+        SELECT COUNT(sc.`sno`) cnt_course
+        FROM sc
+      )p1
+      ,(
+        SELECT COUNT(student.`sno`) cnt_student
+        FROM student
+      )p2
+      
 # 16. 统计各院系学生平均选课数。
 SELECT student.`sdept`,AVG(cnt)
 FROM student,(
