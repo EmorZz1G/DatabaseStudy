@@ -114,20 +114,15 @@ WHERE sc.`sno` IN
             (
                 SELECT student.sno
                 FROM student
-                WHERE sdept = "MA"
-            )
-# 6. 第二种理解
-SELECT student.`sname`,AVG(sc.`grade`)
-FROM sc,student
-WHERE sc.`sno` IN
-            (
-                SELECT student.sno
-                FROM student
                 WHERE sdept = "CS"
             )
+# 6. 第二种理解，提高效率，上次提交没过脑子
+SELECT student.`sname`,AVG(sc.`grade`)
+FROM sc,student
+WHERE 
+    student.`sdept`="CS"
     AND student.`sno`=sc.`sno`
 GROUP BY sc.`sno`
-
 # 7. 统计至少选修了两门课程的学生数
 SELECT COUNT(p.sno)
 FROM    
