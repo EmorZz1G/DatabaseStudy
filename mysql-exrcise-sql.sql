@@ -76,6 +76,17 @@ FROM sc sc1,student s
 WHERE s.`sno`=sc1.`sno`
 GROUP BY s.`sno`
 HAVING MIN(sc1.`grade`) > 80
+
+# 5. 修正，有误，应该查询人数
+SELECT COUNT(*)
+FROM(
+    SELECT COUNT(s.sno)
+    FROM sc sc1,student s
+    WHERE s.`sno`=sc1.`sno`
+    GROUP BY s.`sno`
+    HAVING MIN(sc1.`grade`) > 80
+    )p
+    
 # or 有bug，如果查询为空怎么办？？？
 SELECT s.*
 FROM student s
