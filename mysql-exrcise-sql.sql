@@ -27,7 +27,18 @@ WHERE grade>=(
                 )
     AND student.`sno`=x.`sno`
     AND x.`cno`=course.`cno`;
-
+    
+# 2. 更新，子查询条件有误
+SELECT sname,cname,grade
+FROM student,course,sc X
+WHERE x.grade>=(
+                SELECT AVG(grade)
+                FROM sc Y
+                WHERE x.`cno`=y.`cno`
+                )
+    AND student.`sno`=x.`sno`
+    AND x.`cno`=course.`cno`;   
+    
 # 3. 查询至少选修了C1和C2课程的学生名单。
 SELECT DISTINCT s.*
 FROM student s,sc sc1 ,course c
